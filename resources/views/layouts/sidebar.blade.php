@@ -12,8 +12,13 @@
 
 
                     @php
-
+                    if(auth()->user()->user_type_id == 1){
                         $modules = ['userType', 'articleCategory', 'user', 'article'];
+                    }elseif(auth()->user()->user_type_id == 2){
+                        $modules = ['article'];
+                    }else{
+                        $modules = [];
+                    }
                     @endphp
 
                     @foreach ($modules as $key => $value)
@@ -38,7 +43,7 @@
             </div>
             <div class="sb-sidenav-footer">
                 <div class="small">Logged in as:</div>
-                Start Bootstrap
+                {{ auth()->user()->name }}
             </div>
         </nav>
     </div>

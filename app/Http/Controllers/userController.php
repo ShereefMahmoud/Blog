@@ -8,6 +8,11 @@ use App\Models\User;
 
 class userController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['checkUser','checkAdmin'],['except'=>['login','Dologin']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +62,7 @@ class userController extends Controller
             $data['image'] = $finalName;
         }
 
-        $data['password'] = bcrypt($data['image']);
+        $data['password'] = bcrypt($data['password']);
 
         // echo strlen($data['password']);
         // exit;
@@ -177,12 +182,12 @@ class userController extends Controller
         // $data['password']=bcrypt($data['password']);
         // return User::where('password',$request->password)->get();
 
-        if (auth()->attempt($request->only('email','password'))) {
-            return redirect(url('/'));
+        if (auth()->attempt($data)) {
+            return redirect(url('/dashboard'));
         } else {
             // dd($data);
             // exit;
-            session()->flash('Message', "Error Try Again");
+            session()->flash('Message', "Invalid Email Or Password Try Again");
             return back();
         }
     }

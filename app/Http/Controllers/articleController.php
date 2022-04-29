@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 
 class articleController extends Controller
 {
+
+
+    public function __construct()
+    {
+        $this->middleware(['checkUser','checkPublisher']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,14 @@ class articleController extends Controller
     public function index()
     {
         //
-        $data = DB::table('article')->join('user','user.id','=','user_id')->join('artical_category','artical_category.id','=','article_category_id')->select('article.*','user.name as userName','artical_category.category as articleCategory')->get();
+
+        if (auth()->user()->user_type_id == 1) {
+            # code...
+            $data = DB::table('article')->join('user','user.id','=','user_id')->join('artical_category','artical_category.id','=','article_category_id')->select('article.*','user.name as userName','artical_category.category as articleCategory')->get();
+
+        }elseif(auth()->user()->user_type_id == 2){
+        $data = DB::table('article')->join('user','user.id','=','user_id')->join('artical_category','artical_category.id','=','article_category_id')->select('article.*','user.name as userName','artical_category.category as articleCategory')->where('user_id',auth()->user()->id)->get();
+        }
         return view('Article.index',['data'=>$data , "title"=>"Display Article"]);
 
     }
@@ -56,7 +69,7 @@ class articleController extends Controller
         }
 
         $data['date'] = time();
-        $data['user_id']= 4;
+        $data['user_id']= auth()->user()->id;
 
         $op_create = DB::table('article')->insert($data);
         if($op_create){
@@ -127,7 +140,7 @@ class articleController extends Controller
         }
 
         $data['date'] = time();
-        $data['user_id']= 4;
+        $data['user_id']= auth()->user()->id;
 
 
         $op_update = DB::table('article')->where('id',$id)->update($data);

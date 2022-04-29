@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
-});
+})->middleware(['checkUser','checkAdmin']);
 
 
 
@@ -35,3 +35,7 @@ Route::resource('article', articleController::class);
 
 Route::get('/login',[userController::class,'login']);
 Route::post('/Dologin',[userController::class,'Dologin']);
+Route::get('/logout',function(){
+    auth()->logout();
+    return redirect(url('login'));
+})->middleware(['checkUser']);
