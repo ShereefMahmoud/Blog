@@ -84,9 +84,9 @@
                         </div>
                         <div class="col-lg-6 col-md-6 box-de">
                             <div class="ditk-inf">
-                                <h2 class="w-100">Welcome Back </h2>
-                                <p>Simply Create your account by <br> clicking the Signup Button</p>
-                                <button type="button" class="btn btn-outline-light">Sign Up</button>
+                                <h2 class="w-100">Welcome </h2>
+                                <p> If You Want To Show All Blogs<br> clicking the Show Blogs Button</p>
+                                <a href="{{ url('/') }}"><button type="button" class="btn btn-outline-light" style="width: 110px">Show Blogs</button></a>
                             </div>
                         </div>
                     </div>

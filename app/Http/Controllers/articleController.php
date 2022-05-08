@@ -56,10 +56,10 @@ class articleController extends Controller
     {
         //
         $data=$this->validate($request,[
-            "title"              => 'required|min:10',
+            "title"              => "required|min:10",
             "content"            => "required|min:100",
             "image"              => "required|image|mimes:png,jpg",
-            "article_category_id"=>"required|int",
+            "article_category_id"=> "required|int",
         ]);
 
         $finalName = uniqid() . "." . $request->image->extension();

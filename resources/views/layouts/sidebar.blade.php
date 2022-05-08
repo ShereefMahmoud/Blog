@@ -13,7 +13,7 @@
 
                     @php
                     if(auth()->user()->user_type_id == 1){
-                        $modules = ['userType', 'articleCategory', 'user', 'article'];
+                        $modules = ['userType', 'articleCategory', 'user', 'article' ,'comment'];
                     }elseif(auth()->user()->user_type_id == 2){
                         $modules = ['article'];
                     }else{
@@ -33,7 +33,12 @@
                         <div class="collapse" id="collapseLayouts{{ $key }}" aria-labelledby="headingOne"
                             data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
+                                @if ($value != 'comment')
+
                                 <a class="nav-link" href="{{ url($value . '/create') }}">Create</a>
+
+                                @endif
+
                                 <a class="nav-link" href="{{ url($value . '/') }}">Display</a>
                             </nav>
                         </div>

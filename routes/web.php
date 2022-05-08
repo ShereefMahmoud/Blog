@@ -5,6 +5,7 @@ use App\Http\Controllers\userTypeController;
 use App\Http\Controllers\articleCategoryController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\articleController;
+use App\Http\Controllers\commentController;
 use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
@@ -23,7 +24,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard.index');
+    $count_user = DB::table('user')->count();
+    $count_cat = DB::table('article')->count();
+    $count_comment = DB::table('comment')->count();
+    return view('dashboard.index',["count_user"=>$count_user,'count_cat'=>$count_cat,'count_comment'=>$count_comment]);
 })->middleware(['checkUser','checkAdmin']);
 
 
@@ -32,9 +36,12 @@ Route::resource('userType', userTypeController::class);
 Route::resource('articleCategory', articleCategoryController::class);
 Route::resource('user', userController::class);
 Route::resource('article', articleController::class);
+Route::resource('comment', commentController::class);
 
 Route::get('/login',[userController::class,'login']);
 Route::post('/Dologin',[userController::class,'Dologin']);
+
+
 Route::get('/logout',function(){
     auth()->logout();
     return redirect(url('login'));
